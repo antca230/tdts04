@@ -16,17 +16,23 @@ client.connect((clientHost, clientPort))
 while 1:                                     # listen until process killed
     (connection, address) = sockobj.accept()   # wait for next client connect
     print(f"Server connected by {address}")     # connection is a new socket
-    data = connection.recv(800)
+    data = connection.recv(1080)
+    if data == -1:
+        print("test1")
+        data = connection.recv(2080)
     client.sendall(data) 
     while 1: 
         print("test4")
-        data1 = client.recv(800)  
+        data1 = client.recv(1080)  
         print("test3")             # receive from server: up to 1k
         #data1.replace("Stockholm", "Linköping")
-        if(len(data1) > 0):
-            connection.send(data1)
-        else:
+        # if(len(data1) > 0):
+        #     connection.send(data1)
+        # else:
+        #     break
+        if not data1: 
             break
+        connection.send(data1)
     
 client.close() 
 #connection.close() 
