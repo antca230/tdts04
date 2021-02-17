@@ -1,0 +1,4 @@
+import socket 
+
+ip = socket.gethostbyname('http://zebroid.ida.liu.se/fakenews/test1.txthttp://zebroid.ida.liu.se/fakenews/test1.txt')
+print (ip)
