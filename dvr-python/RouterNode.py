@@ -11,8 +11,6 @@ class RouterNode():
     minC = None
     distanceTable = None
     route = None
-    # Access simulator variables with:
-    # self.sim.POISONREVERSE, self.sim.NUM_NODES, etc.
 
     # --------------------------------------------------
     def __init__(self, ID, sim, costs):
@@ -24,7 +22,6 @@ class RouterNode():
         self.route = [0 for i in range(self.sim.NUM_NODES)]
         self.minC = [0 for i in range(self.sim.NUM_NODES)]
         
-
         self.costs = deepcopy(costs)
         self.minC = deepcopy(costs)
 
@@ -40,10 +37,7 @@ class RouterNode():
                 self.route[i] = i 
             else :
                 self.route[i] = self.sim.INFINITY
-         
-#        print(str(self.distanceTable[0][-2]))
         
-#        print(str(self.distanceTable))
 
         for node, cost in enumerate(costs):
             if cost != self.sim.INFINITY and node != self.myID:
@@ -58,7 +52,6 @@ class RouterNode():
         # Update distance table with data from paket
         self.distanceTable[pkt.sourceid] = pkt.mincost
 
-        # Run Bellman-Ford algorithm and if changes were made send update to neighbours
         if self.bellman():
             self.sendpacket(self.distanceTable[self.myID])
 
@@ -82,7 +75,7 @@ class RouterNode():
 
 
         for i in range (len(self.costs)):
-            if self.costs[i] != self.sim.INFINITY and self.myID != i :        #THIS CODE IS TO SEE THAT WE CAN PRINT LINES ACCORDING TO THE TOTAL CONNECTIONS
+            if self.costs[i] != self.sim.INFINITY and self.myID != i :
                 self.myGUI.print("\n nbr  "+ str(i) + "| \t")
                 for j in range (len(self.costs)): 
                     self.myGUI.print("\t" + str(self.distanceTable[i][j]))
@@ -133,7 +126,6 @@ class RouterNode():
 
                 # Find best route
                 bestRoute = min(routes, key = lambda r: r[0])
-                # Update distance table and routing table
                 if bestRoute[0] <= self.costs[target]:
                     self.distanceTable[self.myID][target] = bestRoute[0]
                     self.route[target] = bestRoute[1]
